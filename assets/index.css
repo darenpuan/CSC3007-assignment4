@@ -1,0 +1,9 @@
+.tooltips{
+    position: absolute;
+    background-color: #fff;
+}
+
+section{
+    margin: 20px auto;
+    width: fit-content;
+}

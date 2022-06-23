@@ -4,18 +4,53 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Assignment 4</title>
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+    crossorigin="anonymous"
+  ></script>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+    crossorigin="anonymous"
+  />
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="/assets/index.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js"></script>
   </head>
   <body>
+    <nav class="navbar bg-light">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">Daren</span>
+      </div>
+    </nav>
+    <section>
     <svg></svg>
-    <div class="tooltip"></div>
-
+    <div class="tooltips"></div>
+  </section>
+  <div class="container footerContainer">
+    <footer
+      class="d-flex flex-wrap justify-content-between align-items-center py-3 mt-4 border-top"
+    >
+      <div class="col-md-4 d-flex align-items-center">
+        <span class="mb-3 mb-md-0 text-muted">© 2022 Daren</span>
+      </div>
+    </footer>
+  </div>
     <script>
-      let width = 800,
+      function titleCase(str) {
+        str = str.toLowerCase().split(" ");
+        for (var i = 0; i < str.length; i++) {
+          str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+        }
+        return str.join(" ");
+      }
+      let width = 1000,
         height = 400;
 
-      let svg = d3.select("svg").attr("viewBox", "0 0 " + width + " " + height);
+      let svg = d3.select("svg").attr("viewBox", "-100 0 " + width + " " + height);
 
       // Load external data
       Promise.all([
@@ -50,14 +85,37 @@
               return "pink";
             }
           })
-
           .call(
             d3
               .drag()
               .on("start", dragstarted)
               .on("drag", dragged)
               .on("end", dragended)
-          );
+          )
+          .on("mouseover", (event, d) => {
+            d3.select(".tooltips")
+              .html(
+                "Age: " +
+                  d.age +
+                  "<br>Gender: " +
+                  titleCase(d.gender) +
+                  "<br>Nationality: " +
+                  titleCase(d.nationality) +
+                  "<br>Organization: " +
+                  titleCase(d.organization) +
+                  "<br>Occupation: " +
+                  titleCase(d.occupation) +
+                  "<br>Vaccination Status: " +
+                  titleCase(d.vaccinated)
+              )
+              .style("left", event.pageX + "px")
+              .style("top", event.pageY + "px");
+
+            let path = d3.select(event.currentTarget);
+          })
+          .on("mouseout", (event, d) => {
+            d3.select(".tooltips").text("");
+          });
 
         let img = svg
           .append("g")
@@ -66,8 +124,11 @@
           .enter()
           .append("image")
           .attr("xlink:href", function (d) {
-            if (d.gender == "male") {return "/assets/img/man.png"}
-            else {return "/assets/img/woman.png"};
+            if (d.gender == "male") {
+              return "/assets/img/man.png";
+            } else {
+              return "/assets/img/woman.png";
+            }
           })
           .attr("width", 30)
           .attr("height", 30)
@@ -146,6 +207,18 @@
             );
             img.attr("x", (d) => d.x - 14).attr("y", (d) => d.y - 16);
           });
+
+        var colorScale = d3
+          .scaleOrdinal()
+          .domain(["Male", "Female"])
+          .range(["lightblue", "pink"]);
+        var legend = d3
+          .legendColor()
+          .labels(["Male", "Female"])
+          .scale(colorScale)
+          .title("Legend: ");
+
+        svg.append("g").attr("transform", "translate(0,10)").call(legend);
       });
     </script>
   </body>
