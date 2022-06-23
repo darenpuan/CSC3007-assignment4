@@ -6,17 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Assignment 4</title>
     <script
-    src="https://code.jquery.com/jquery-3.6.0.min.js"
-    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-    crossorigin="anonymous"
-  ></script>
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-    crossorigin="anonymous"
-  />
-    <script src="https://d3js.org/d3.v7.min.js"></script>
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script src="https://d3js.org/d3.v6.min.js"></script>
     <link rel="stylesheet" href="/assets/index.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js"></script>
   </head>
@@ -27,18 +27,18 @@
       </div>
     </nav>
     <section>
-    <svg></svg>
-    <div class="tooltips"></div>
-  </section>
-  <div class="container footerContainer">
-    <footer
-      class="d-flex flex-wrap justify-content-between align-items-center py-3 mt-4 border-top"
-    >
-      <div class="col-md-4 d-flex align-items-center">
-        <span class="mb-3 mb-md-0 text-muted">© 2022 Daren</span>
-      </div>
-    </footer>
-  </div>
+      <svg></svg>
+      <div class="tooltips"></div>
+    </section>
+    <div class="container footerContainer">
+      <footer
+        class="d-flex flex-wrap justify-content-between align-items-center py-3 mt-4 border-top"
+      >
+        <div class="col-md-4 d-flex align-items-center">
+          <span class="mb-3 mb-md-0 text-muted">© 2022 Daren</span>
+        </div>
+      </footer>
+    </div>
     <script>
       function titleCase(str) {
         str = str.toLowerCase().split(" ");
@@ -50,12 +50,14 @@
       let width = 1000,
         height = 400;
 
-      let svg = d3.select("svg").attr("viewBox", "-100 0 " + width + " " + height);
+      let svg = d3
+        .select("svg")
+        .attr("viewBox", "-100 0 " + width + " " + height);
 
       // Load external data
       Promise.all([
-        d3.json("/assets/links-sample.json"),
-        d3.json("/assets/cases-sample.json"),
+        d3.json("assets/links-sample.json"),
+        d3.json("assets/cases-sample.json"),
       ]).then((data) => {
         // Data preprocessing
         data[0].forEach((e) => {
