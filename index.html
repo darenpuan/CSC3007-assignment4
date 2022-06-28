@@ -56,8 +56,8 @@
 
       // Load external data
       Promise.all([
-        d3.json("assets/links-sample.json"),
-        d3.json("assets/cases-sample.json"),
+        d3.json("./assets/links-sample.json"),
+        d3.json("./assets/cases-sample.json"),
       ]).then((data) => {
         // Data preprocessing
         data[0].forEach((e) => {
@@ -127,9 +127,9 @@
           .append("image")
           .attr("xlink:href", function (d) {
             if (d.gender == "male") {
-              return "assets/img/man.png";
+              return "./assets/img/man.png";
             } else {
-              return "assets/img/woman.png";
+              return "./assets/img/woman.png";
             }
           })
           .attr("width", 30)
